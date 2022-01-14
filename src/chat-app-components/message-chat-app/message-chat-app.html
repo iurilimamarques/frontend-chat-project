@@ -1,0 +1,33 @@
+<div class="bg-blue-gray h-100">
+  <div class="row justify-content-center align-items-end" style="height: 90%; overflow: auto;" scroll-to-bottom="vm.messagesList">
+    <div class="col-md-11">
+
+      <div class="row" 
+            ng-repeat="message in vm.messagesList track by $index">
+        <div class="col-md-12 form-control" style="background-color: transparent; border: transparent;">
+          <div class="toast-container" ng-class="message.fromUser.id == vm.loggedUser ? 'pull-right' : 'pull-left'">
+            <div class="toast show" ng-class="message.fromUser.id == vm.loggedUser ? 'bg-light' : 'bg-recipient-message'" role="alert" aria-live="assertive" aria-atomic="true">
+              <div class="toast-header">
+                <img class="rounded me-2">
+                <strong class="me-auto">{{message.fromUser.id == vm.loggedUser ? 'Você' : message.fromUser.name}}</strong>
+                <small class="text-muted">{{message.createdAt}}</small>
+              </div>
+              <div class="toast-body">
+                {{message.message}}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+  <div class="row justify-content-center align-items-center" style="height: 10%;">
+    <div class="col-md-11 align-items-center">
+      <div class="input-group">
+        <input type="text" class="form-control" maxlength="255" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" ng-model="vm.message" ng-keydown="vm.onKeyPress($event)">
+        <button class="btn btn-outline-primary btn-light" type="button" id="send-message" ng-disabled="vm.message == ''" ng-click="vm.sendMessageCtrl()">Send</button>
+      </div>
+    </div>
+  </div>
+</div>
