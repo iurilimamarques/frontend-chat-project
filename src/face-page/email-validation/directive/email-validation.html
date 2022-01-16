@@ -18,22 +18,22 @@
           <div class="mb-4"></div>
           <div class="row">
             <div class="col-2 col-xxl-2">
-              <input class="form-control" type="text" style="text-align: center;font-size: 32px;" maxlength="1" id="input1" ng-model="vm.codeValidation.input1" capitalize-input move-next-on-max-length>
+              <input class="form-control input-code-validation" type="text" style="text-align: center;font-size: 32px;" maxlength="1" id="input1" ng-model="vm.codeValidation.input1" capitalize-input move-next-on-max-length>
             </div>
             <div class="col-2">
-              <input class="form-control" type="text" style="text-align: center;font-size: 32px;" maxlength="1" id="input2" ng-model="vm.codeValidation.input2" capitalize-input move-next-on-max-length>
+              <input class="form-control input-code-validation" type="text" style="text-align: center;font-size: 32px;" maxlength="1" id="input2" ng-model="vm.codeValidation.input2" capitalize-input move-next-on-max-length>
             </div>
             <div class="col-2 col-xxl-2">
-              <input class="form-control" type="text" style="text-align: center;font-size: 32px;" maxlength="1" id="input3" ng-model="vm.codeValidation.input3" capitalize-input move-next-on-max-length>
+              <input class="form-control input-code-validation" type="text" style="text-align: center;font-size: 32px;" maxlength="1" id="input3" ng-model="vm.codeValidation.input3" capitalize-input move-next-on-max-length>
             </div>
             <div class="col-2">
-              <input class="form-control" type="text" style="text-align: center;font-size: 32px;" maxlength="1" id="input4" ng-model="vm.codeValidation.input4" capitalize-input move-next-on-max-length>
+              <input class="form-control input-code-validation" type="text" style="text-align: center;font-size: 32px;" maxlength="1" id="input4" ng-model="vm.codeValidation.input4" capitalize-input move-next-on-max-length>
             </div>
             <div class="col-2">
-              <input class="form-control" type="text" style="text-align: center;font-size: 32px;" maxlength="1" id="input5" ng-model="vm.codeValidation.input5" capitalize-input move-next-on-max-length>
+              <input class="form-control input-code-validation" type="text" style="text-align: center;font-size: 32px;" maxlength="1" id="input5" ng-model="vm.codeValidation.input5" capitalize-input move-next-on-max-length>
             </div>
             <div class="col-2">
-               <input class="form-control" type="text" style="text-align: center;font-size: 32px;" maxlength="1" id="input6" ng-model="vm.codeValidation.input6" capitalize-input move-next-on-max-length>
+               <input class="form-control input-code-validation" type="text" style="text-align: center;font-size: 32px;" maxlength="1" id="input6" ng-model="vm.codeValidation.input6" capitalize-input move-next-on-max-length>
             </div>
           </div>
           <div class="row mt-3" ng-if="vm.messageError">
@@ -43,7 +43,7 @@
           </div>
           <div class="row">
             <div class="col-md-6 col-lg-4 col-xxl-4 offset-md-3 offset-lg-4 offset-xxl-4">
-              <button class="btn btn-primary d-block w-100" data-bss-hover-animate="pulse" style="background: rgb(33, 74, 128);" ng-click="vm.sendCode()" ng-disabled="vm.codeIsIncomplete() || vm.tracker.sendingCode.active()">
+              <button class="btn btn-primary d-block w-100" data-bss-hover-animate="pulse" ng-click="vm.sendCode()" ng-disabled="vm.codeIsIncomplete() || vm.tracker.sendingCode.active()" ng-if="!vm.codeValidationSucceded">
                 <div ng-if="!vm.tracker.sendingCode.active()">
                   <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tabler icon-tabler-location">
                     <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
@@ -53,6 +53,13 @@
                 <div ng-if="vm.tracker.sendingCode.active()">
                   <img src="../../../../content/images/loading.svg" style="width: 22px !important;" ng-if="vm.tracker.sendingCode.active()">
                 </div>
+              </button>
+
+              <button class="btn btn-success d-block w-100" data-bss-hover-animate="pulse" ng-if="vm.codeValidationSucceded" ng-disabled="vm.codeValidationSucceded">
+                <svg class="icon icon-tabler icon-tabler-check" xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                  <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                  <path d="M5 12l5 5l10 -10"></path>
+                </svg>&nbsp;Success
               </button>
             </div>
           </div>

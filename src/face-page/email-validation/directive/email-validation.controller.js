@@ -1,13 +1,14 @@
 const angular = require("angular");
 module.exports = Controller;
 
-Controller.$inject = ['promiseTracker', '$injector', '$cookies', '$state'];
+Controller.$inject = ['promiseTracker', '$injector', '$cookies', '$state', '$timeout'];
 
-function Controller(promiseTracker, $injector, $cookies, $state) {
+function Controller(promiseTracker, $injector, $cookies, $state, $timeout) {
   let vm = this;
 
   const ServiceAuthentication = $injector.get('ServiceAuthentication');
 
+  vm.codeValidationSucceded = false;
   vm.codeValidation = {};
   vm.tracker = {
     sendingCode: promiseTracker()
@@ -41,7 +42,10 @@ function Controller(promiseTracker, $injector, $cookies, $state) {
 
     vm.tracker.sendingCode.addPromise(
       ServiceAuthentication.sendCode(params).then(() => {
-        $state.go('login');
+        vm.codeValidationSucceded = true;
+        $timeout(() => {
+          $state.go('login');
+        }, 2500);
       }, function (error) {
         vm.messageError = error.data.message;
       })

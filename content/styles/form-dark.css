@@ -51,6 +51,30 @@
   outline: none;
 }
 
+.form-dark form .btn-primary:active {
+  transform: translateY(1px);
+}
+
+.form-dark form .btn-success {
+  background: #198754;
+  border: none;
+  border-radius: 4px;
+  padding: 11px;
+  box-shadow: none;
+  margin-top: 26px;
+  text-shadow: none;
+  outline: none;
+}
+
+.form-dark form .btn-success:hover, .form-dark form .btn-success:active {
+  background: #198754;
+  outline: none;
+}
+
+.form-dark form .btn-success:active {
+  transform: translateY(1px);
+}
+
 .login-dark form .forgot {
   display: block;
   text-align: center;
@@ -65,8 +89,8 @@
   text-decoration: none;
 }
 
-.form-dark form .btn-primary:active {
-  transform: translateY(1px);
+.input-code-validation {
+  padding: 0 !important;
 }
 
 @media (min-width: 275px) {
