@@ -1,14 +1,31 @@
-var controller = require('./message-page.controller');
-var template = require('./message-page.html');
+const controller = require('./message-page.controller');
 
 module.exports = directive;
 
-directive.$inject = [];
+directive.$inject = ['$window', '$templateCache'];
 
-function directive() {
+function directive($window, $templateCache) {
   return {
-    template: template,
+    template: '<div ng-include="templateUrl"></div>',
     controller: controller,
-    controllerAs: 'vm'
+    controllerAs: 'vm',
+    link: (scope) => {
+      $window.onresize = () => {
+        changeTemplate();
+        scope.$apply();
+      }
+      changeTemplate();
+
+      function changeTemplate() {
+        let screenWidth = $window.innerWidth;
+        if (screenWidth < 768) {
+          $templateCache.put('mobile-template', require('./templates/mobile.html'));
+          scope.templateUrl = 'mobile-template';
+        } else if (screenWidth >= 768) {
+          $templateCache.put('default-template', require('./templates/default.html'));
+          scope.templateUrl = 'default-template';
+        }
+      }
+    }
   }
 }

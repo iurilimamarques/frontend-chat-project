@@ -1,0 +1,54 @@
+<title>Chat-app</title>
+
+<div class="container-fluid">
+  <div class="row justify-content-center h-100">
+    <div class="col-md-3 pb-3 bg-light" style="height: 100vh;">
+      <div class="row mb-2" style="height: 7vh; align-content: center;">
+        <div class="col-md-12">
+          <select2-chat-app ng-model="vm.userSearch"/>
+        </div>
+      </div>
+
+      <div class="row" style="height: 92vh; overflow: auto;">
+        <div class="col-md-12">
+          <div class="nav nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+            <a class="nav-link form-control mt-2"
+               id="chat-{{$index}}"
+               data-bs-toggle="pill"
+               href=""
+               role="tab"
+               aria-controls="v-pills-home"
+               aria-selected="true"
+               ng-click="vm.selectChat($index, item)"
+               ng-repeat="item in vm.activeChats track by $index">
+              {{item.name}}
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-9 p-0" style="height: 100vh;">
+      <div class="row" style="height: 6vh;">
+        <div class="col-md-12">
+          <nav class="navbar navbar-light bg-light">
+            <div class="container-fluid">
+              <a class="navbar-brand">
+                Bem vindo {{vm.user.name}}
+              </a>
+            </div>
+          </nav>
+        </div>
+      </div>
+      <div class="container d-flex justify-content-center align-items-center" style="height: 94vh;" ng-if="vm.isObjectEmpty(vm.selectedChat)">
+        <div class="row">
+          <div class="col-md-12">
+            <img src="../../../../content/images/no_chat_selected.svg" style="width: 200px;"/>
+          </div>
+        </div>
+      </div>
+      <div class="container-fluid p-0" style="height: 94vh;" ng-if="!vm.isObjectEmpty(vm.selectedChat)">
+        <message-chat-app recipient="vm.selectedChat" send-message="vm.sendMessage"/>
+      </div>
+    </div>
+  </div>
+</div>

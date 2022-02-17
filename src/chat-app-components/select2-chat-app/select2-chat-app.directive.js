@@ -18,9 +18,9 @@ function directive() {
   }
 }
 
-Controller.$inject = ['$rootScope', 'SelectService'];
+Controller.$inject = ['$rootScope', 'SelectService', '$cookies'];
 
-function Controller($rootScope, SelectService) {
+function Controller($rootScope, SelectService, $cookies) {
   let vm = null;
   this.$onInit = function() {
     vm = this;
