@@ -1,4 +1,8 @@
 const angular = require('angular');
+require('../../content/styles/sidebar/sidebar-responsive-2-1.css');
+require('../../content/styles/sidebar/sidebar-responsive-2.css');
+require('../../content/styles/sidebar/soft-ui-aside-navbar.css');
+require('../../content/styles/message-default.css');
 
 module.exports = angular
   .module('messagePage', [
@@ -8,7 +12,7 @@ module.exports = angular
     require('../chat-app-components/message-chat-app')
   ])
   .directive('messagePage', require('./directive/message-page.directive'))
-  .service('MessageService', require('./service/service'))
+  .service('ContactService', require('./service/contact.service'))
   .factory('RestangularConfig', require('../restangular-config'))
   .constant('SockJS', require('sockjs-client'))
   .constant('Stomp', require('stompjs/lib/stomp.js').Stomp)

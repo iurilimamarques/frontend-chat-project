@@ -1,19 +1,17 @@
 module.exports = service;
 
-service.$inject = ['$http'];
+service.$inject = ['Restangular', 'URL_API_CHATAPP'];
 
-function service($http) {
-  let path = `${process.env.BASE_URL}/user`;
+function service(Restangular, URL_API_CHATAPP) {
+  const path = 'chat/user';
 
   return {
     searchUser: _searchUser
   }
 
-  function _searchUser(keyWord, loggedUser) {
-    return $http({
-      url: path,
-      method: 'GET',
-      params: { keyWord, loggedUser }
-    });
+  function _searchUser(params) {
+    return Restangular.allUrl('chat-app', URL_API_CHATAPP)
+        .all(path)
+        .customGET(null, params);
   }
 }

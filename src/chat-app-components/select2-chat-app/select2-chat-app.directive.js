@@ -1,4 +1,4 @@
-let template = require('./select2-chat-app.html');
+const template = require('./select2-chat-app.html');
 const angular = require('angular');
 
 module.exports = directive;
@@ -34,14 +34,13 @@ function Controller($rootScope, SelectService, $cookies) {
     $rootScope.$emit('onSelectUser', userSelected);
   }
 
-  function _getUserInfo() {
-    return angular.fromJson($cookies.get('userCredentials'));
-  }
-
   function _searchUser($select) {
-    let loggedUser = _getUserInfo().id;
-    SelectService.searchUser($select.search, loggedUser).then(response => {
-      vm.people = response.data;
+    let params = {
+      keyWord: $select.search
+    };
+
+    SelectService.searchUser(params).then(response => {
+      vm.people = response;
     });
   }
 }

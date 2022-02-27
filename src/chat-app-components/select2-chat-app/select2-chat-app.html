@@ -1,5 +1,5 @@
 <ui-select ng-model="vm.ngModel.selected" on-select="vm.onSelectUser($select)">
-  <ui-select-match  placeholder="Select or search a person in the list...">
+  <ui-select-match  placeholder="Who are you looking for?">
     <span ng-bind="$select.selected.name"></span>
   </ui-select-match>
   <ui-select-choices repeat="item in vm.people track by $index" refresh="vm.searchUser($select)" minimum-input-length="1">

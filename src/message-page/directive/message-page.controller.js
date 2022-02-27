@@ -5,38 +5,50 @@ module.exports = Controller;
 Controller.$inject = ['SockJS', 'Stomp', '$rootScope', '$scope', '$cookies', '$injector'];
 
 function Controller(SockJS, Stomp, $rootScope, $scope, $cookies, $injector) {
-  var vm = this;
+  let vm = this;
   let stompClient = {};
+  let RestangularConfig = $injector.get('RestangularConfig');
+  let ContactService = $injector.get('ContactService');
 
-  vm.selectChat = _selectChat;
+  vm.selectContact = _selectContact;
   vm.isObjectEmpty = _isObjectEmpty;
   vm.sendMessage = _sendMessage;
 
-  vm.activeChats = [];
-  vm.selectedChat = {};
+  vm.contacts = [];
+  vm.selectedContact = {};
   vm.userSearch = {};
   vm.newMessages = {};
-  let RestangularConfig = $injector.get('RestangularConfig');
-  let MessageService = $injector.get('MessageService');
 
   RestangularConfig.init();
 
-  function _removeClassSelection() {
-    for(let i = 0; i <= vm.activeChats.length; i++) {
-      let element = angular.element(document.querySelector(`#chat-${i}`));
-      element.removeClass('active');
-    }
-  }
-
-  function _selectChat(index, item) {
-    _removeClassSelection();
-    let elementSelected = angular.element(document.querySelector(`#chat-${index}`));
-    elementSelected.addClass('active');
-    vm.selectedChat = item;
+  function _selectContact(item) {
+    vm.selectedContact = item;
   }
 
   function _onSelectUser(event, data) {
-    vm.activeChats.push(data);
+    _createContact(data);
+  }
+
+  function _createContact(selectedUser) {
+    let contactBody = _builldContact(selectedUser);
+    ContactService.saveContact(contactBody).then(response => {
+      _selectContact(response.plain());
+      vm.contacts.unshift(response.plain());
+    });
+  }
+
+  function _builldContact(selectedUser) {
+    return {
+      userB: _buildUserRecipient(selectedUser)
+    };
+  }
+
+  function _buildUserRecipient(selectedUser) {
+    return {
+      id: selectedUser.id,
+      name: selectedUser.name,
+      email: selectedUser.email
+    }
   }
 
   function _isObjectEmpty(object) {
@@ -47,18 +59,19 @@ function Controller(SockJS, Stomp, $rootScope, $scope, $cookies, $injector) {
     vm.user = _getUserInfo();
   }
 
-  function _getActiveChats() {
-    MessageService.getActiveContacts(_getUserInfo().id).then(response => {
-      vm.activeChats = response.data;
+  function _getContacts() {
+    ContactService.getActiveContacts().then(response => {
+      vm.contacts = response.plain();
     });
   }
 
   function _connectUser(userInfo) {
-    let ws = SockJS(`${process.env.BASE_URL_WEBSOCKET}/chat`);
+    // let ws = SockJS(`${process.env.BASE_URL_WEBSOCKET}/chat`);
+    let ws = SockJS(`http://localhost:8082/chat`);
 
     stompClient = Stomp.over(ws);
 
-    stompClient.connect({username: userInfo.email}, function () {
+    stompClient.connect({email: userInfo.email}, function () {
       _messageSubscriber();
       _updateChecker();
     }, function (err) {
@@ -72,13 +85,14 @@ function Controller(SockJS, Stomp, $rootScope, $scope, $cookies, $injector) {
 
   function _verifyActiveChats(fromUserId) {
     let knownUser = vm.activeChats.find(a => _isknownUser(a, fromUserId));
-    if(!knownUser) _getActiveChats();
+    if(!knownUser) _getContacts();
   }
 
   function _messageSubscriber() {
     stompClient.subscribe('/user/queue/messages', function (output) {
       let incomingMessage = angular.fromJson(output.body);
-      _verifyActiveChats(incomingMessage.fromUser.id);
+      console.log(incomingMessage)
+      // _verifyActiveChats(incomingMessage.fromUser.id);
       $scope.$broadcast('newMessage', incomingMessage);
     });
   }
@@ -103,6 +117,6 @@ function Controller(SockJS, Stomp, $rootScope, $scope, $cookies, $injector) {
   (function _init() {
     _defineUserInformation();
     _connectUser(_getUserInfo());
-    _getActiveChats();
+    _getContacts();
   })();
 }

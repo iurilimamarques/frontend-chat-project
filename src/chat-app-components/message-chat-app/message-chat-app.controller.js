@@ -3,28 +3,33 @@ const moment = require('moment')
 
 module.exports = Controller;
 
-Controller.$inject = ['MessageChatAppService', '$scope'];
+Controller.$inject = ['MessageChatAppService', '$scope', '$cookies'];
 
-function Controller(MessageChatAppService, $scope) {
+function Controller(MessageChatAppService, $scope, $cookies) {
   let vm = {};
 
   this.$onInit = function() {
     vm = this;
 
+    vm.isRecipient = _isRecipient;
+    vm.onKeyPress = _onKeyPress;
     vm.sendMessageCtrl = _sendMessage;
     vm.messagesList = [];
     vm.message = '';
     vm.loggedUser = _getUserInfo().id;
-    vm.onKeyPress = _onKeyPress;
 
     $scope.$on('newMessage', _onNewMessage);
-    $scope.$watch('vm.recipient.id', _onRecipientUserChanges);
+    $scope.$watch('vm.contact.id', _onRecipientUserChanges, true);
 
-    _loadAllMessages();
+    _loadAllMessages(vm.contact.id);
   };
 
-  function _onRecipientUserChanges(newValue, oldValue) {
-    if(newValue != oldValue) _loadAllMessages();
+  function _isRecipient(message) {
+    return message.userRecipient.id === vm.loggedUser;
+  }
+
+  function _onRecipientUserChanges(oldValue, newValue) {
+    if(oldValue !== newValue) _loadAllMessages(newValue);
   }
 
   function _onKeyPress($event) {
@@ -32,22 +37,22 @@ function Controller(MessageChatAppService, $scope) {
   }
 
   function _onNewMessage(event, data) {
-    if(data.fromUser.id == vm.recipient.id) _pushNewMessage(data);
+    if(data.contact.id === vm.contact.id) _pushNewMessage(data);
   }
 
   function _sendMessage() {
     let message = angular.copy(vm.message);
     vm.message = '';
     let payload = {
-      fromUser:  _getUserInfo(),
+      userSender:  _getUserInfo(),
       message: message,
-      userDestination: vm.recipient,
-      createdAt: moment().format('YYYY-MM-DD HH:mm:ss')
+      userRecipient: vm.contact.user,
+      contact: vm.contact
     };
     vm.sendMessage(payload);
 
     let payloadToBePushed = angular.copy(payload);
-    payloadToBePushed.createdAt = moment(payload.createdAt).format('HH:mm DD/MM/YYYY');
+    payloadToBePushed.createdIn = moment().format('HH:mm DD/MM/YYYY');
     _pushNewMessage(payloadToBePushed, true);
   }
 
@@ -60,9 +65,9 @@ function Controller(MessageChatAppService, $scope) {
     return angular.fromJson($cookies.get('userCredentials'));
   }
 
-  function _loadAllMessages() {
-    MessageChatAppService.loadAllMessages(vm.recipient.id, _getUserInfo().id).then(response => {
-      vm.messagesList = response.data;
+  function _loadAllMessages(id) {
+    MessageChatAppService.loadAllMessages(id).then(response => {
+      vm.messagesList = response;
     });
   }
 }

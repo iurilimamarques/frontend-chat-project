@@ -1,18 +1,17 @@
 module.exports = service;
 
-service.$inject = ['$http'];
+service.$inject = ['Restangular', 'URL_API_CHATAPP'];
 
-function service($http) {
-  let path = `${process.env.BASE_URL}/message`;
+function service(Restangular, URL_API_CHATAPP) {
+  const path = `chat/message`;
 
   return {
     loadAllMessages: _loadAllMessages
   }
 
-  function _loadAllMessages(recipient, loggedUser) {
-    return $http({
-      url: `${path}/load-all-messages/${loggedUser}/${recipient}`,
-      method: 'GET'
-    });
+  function _loadAllMessages(contactId) {
+    return Restangular.allUrl('chat-app', URL_API_CHATAPP)
+        .all(`${path}/load-all-messages/${contactId}`)
+        .customGET();
   }
 }

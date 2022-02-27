@@ -12,7 +12,7 @@ function directive() {
     controllerAs: 'vm',
     scope: {},
     bindToController: {
-      recipient: '=?',
+      contact: '=?',
       sendMessage: '=?'
     }
   };

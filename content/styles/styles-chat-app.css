@@ -18,3 +18,34 @@ select:-webkit-autofill:focus {
     -webkit-text-fill-color: #fff;
     transition: background-color 5000s ease-in-out 0s;
 }
+
+.ui-select-container {
+    padding-top: 0.675rem;
+    padding-bottom: 0.675rem;
+    margin: 0 1rem;
+}
+
+.ui-select-search, .ui-select-placeholder {
+    font-size: 13px;
+}
+
+.ui-select-choices-row-inner {
+    padding: 3px 5px !important;
+}
+
+.ui-select-choices-row-inner > div {
+    font-size: 16px !important;
+}
+
+.ui-select-choices-row-inner > small {
+    font-size: 12px !important;
+}
+
+.ui-select-no-choice {
+    margin-top: -6px !important;
+}
+
+.dropdown-menu {
+    position: absolute !important;
+    padding: 0 !important;
+}

@@ -20,7 +20,7 @@ function Controller($state, $rootScope, $injector, promiseTracker, $cookies) {
       ServiceAuthentication.userLogin(vm.userCredentials).then(response => {
         let userCredentials = {
           id: response.id,
-          username: response.username,
+          email: response.username,
           jwt: response.token,
           name: response.name
         };
