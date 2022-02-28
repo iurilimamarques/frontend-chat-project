@@ -3,9 +3,9 @@ const moment = require('moment')
 
 module.exports = Controller;
 
-Controller.$inject = ['MessageChatAppService', '$scope', '$cookies'];
+Controller.$inject = ['MessageChatAppService', '$scope', '$cookies', '$window'];
 
-function Controller(MessageChatAppService, $scope, $cookies) {
+function Controller(MessageChatAppService, $scope, $cookies, $window) {
   let vm = {};
 
   this.$onInit = function() {
@@ -14,6 +14,7 @@ function Controller(MessageChatAppService, $scope, $cookies) {
     vm.isRecipient = _isRecipient;
     vm.onKeyPress = _onKeyPress;
     vm.sendMessageCtrl = _sendMessage;
+    vm.calculateSpanHeight = _calculateSpanHeight;
     vm.messagesList = [];
     vm.message = '';
     vm.loggedUser = _getUserInfo().id;
@@ -23,6 +24,35 @@ function Controller(MessageChatAppService, $scope, $cookies) {
 
     _loadAllMessages(vm.contact.id);
   };
+
+  function _getCharactersPerLine(screenWidth) {
+    if (screenWidth >= 1583 ) {
+      return 111;
+    } else if (screenWidth < 1583 && screenWidth >= 1298) {
+      return 77;
+    } else if (screenWidth < 1298) {
+      return 85;
+    } else if (screenWidth < 1118) {
+      return 60;
+    } else if (screenWidth < 937) {
+      return 48;
+    } else if (screenWidth < 860) {
+      return 35;
+    } else if (screenWidth < 793) {
+      return 32;
+    } else if (screenWidth < 773) {
+      return 26;
+    }
+  }
+
+  function _calculateSpanHeight(message) {
+    let minHeight = 25;
+    let charactersPerLine = _getCharactersPerLine($window.innerWidth);
+
+    let heightPixels = Math.ceil(message.message.length / charactersPerLine) * minHeight;
+    console.log(heightPixels)
+    return { "height": `${heightPixels}px` };
+  }
 
   function _isRecipient(message) {
     return message.userRecipient.id === vm.loggedUser;

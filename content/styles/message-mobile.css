@@ -1,0 +1,5 @@
+@media (max-width: 768px) {
+    .navbar-expand-xs {
+        max-width: 90% !important;
+    }
+}

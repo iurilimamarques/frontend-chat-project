@@ -1,13 +1,17 @@
 <div class="w-100 container-messages" scroll-to-bottom="vm.messagesList">
   <div>
-    <div class="container-message-line" ng-repeat="message in vm.messagesList track by $index">
+    <div class="container-message-line" ng-repeat="message in vm.messagesList track by $index" ng-class="{ 'container-message-line-receiver': vm.isRecipient(message) }">
       <div class="container-text" ng-class="{ 'container-text-receiver': vm.isRecipient(message) }">
-        <span class="message" ng-bind-html="message.message">
-        </span>
+        <div class="container-text--message">
+          <span class="message" ng-bind-html="message.message">
+          </span>
+        </div>
 
-        <span class="message-time">
-          {{message.createdIn}}
-        </span>
+        <div class="container-text--message-time">
+          <span class="message-time">
+            {{message.createdIn}}
+          </span>
+        </div>
       </div>
     </div>
   </div>

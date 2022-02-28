@@ -3,6 +3,7 @@ require('../../content/styles/sidebar/sidebar-responsive-2-1.css');
 require('../../content/styles/sidebar/sidebar-responsive-2.css');
 require('../../content/styles/sidebar/soft-ui-aside-navbar.css');
 require('../../content/styles/message-default.css');
+// require('../../content/styles/message-mobile.css.css');
 
 module.exports = angular
   .module('messagePage', [
