@@ -34,8 +34,15 @@
         </div>
       </aside>
 
-      <div class="container-message-default my-3 me-3" ng-if="!vm.isObjectEmpty(vm.selectedContact)">
-        <message-chat-app contact="vm.selectedContact"/>
+      <div class="container-message-default my-3 me-3">
+        <message-chat-app contact="vm.selectedContact" ng-if="!vm.isObjectEmpty(vm.selectedContact)"></message-chat-app>
+
+        <div class="container-no-contact-selected" ng-if="vm.isObjectEmpty(vm.selectedContact)">
+          <img src="../../../../content/images/no_contact_selected.svg">
+          <span>
+            Find a friend and start chating right away!
+          </span>
+        </div>
       </div>
     </div>
   </div>

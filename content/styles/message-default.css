@@ -128,6 +128,22 @@ body {
     height: 22px !important;
 }
 
+.container-no-contact-selected {
+    display: flex;
+    position: absolute;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    background-color: white;
+    border-radius: 0 1rem 1rem 0;
+    width: 100%;
+    height: 100%;
+}
+
+.container-no-contact-selected > img {
+    margin-bottom: 30px;
+}
+
 @media (max-width: 1520px) {
     .container-background {
         padding: 0;
