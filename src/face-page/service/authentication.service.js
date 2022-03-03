@@ -1,8 +1,8 @@
-module.exports = service;
+module.exports = authenticationService;
 
-service.$inject = ['Restangular', 'URL_API_CHATAPP'];
+authenticationService.$inject = ['Restangular', 'URL_API_CHATAPP'];
 
-function service(Restangular, URL_API_CHATAPP) {
+function authenticationService(Restangular, URL_API_CHATAPP) {
   const path = 'auth';
 
   return {

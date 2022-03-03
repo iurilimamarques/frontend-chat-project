@@ -7,7 +7,8 @@ function contactService(Restangular, URL_API_CHATAPP) {
 
   return {
     getActiveContacts: _getActiveContacts,
-    saveContact: _saveContact
+    saveContact: _saveContact,
+    getContactById: _getContactById
   }
 
   function _getActiveContacts() {
@@ -21,4 +22,11 @@ function contactService(Restangular, URL_API_CHATAPP) {
         .all(path)
         .customPOST(contact);
   }
+
+  function _getContactById(idContact) {
+    return Restangular.allUrl('chat-app', URL_API_CHATAPP)
+        .all(`${path}/find-contact/${idContact}`)
+        .customGET();
+  }
+
 }

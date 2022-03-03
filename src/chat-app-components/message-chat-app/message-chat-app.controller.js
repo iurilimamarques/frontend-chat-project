@@ -3,9 +3,9 @@ const moment = require('moment')
 
 module.exports = Controller;
 
-Controller.$inject = ['MessageChatAppService', '$scope', '$cookies', '$window'];
+Controller.$inject = ['$scope', '$cookies', '$injector', 'promiseTracker'];
 
-function Controller(MessageChatAppService, $scope, $cookies, $window) {
+function Controller($scope, $cookies, $injector, promiseTracker) {
   let vm = {};
 
   this.$onInit = function() {
@@ -17,6 +17,12 @@ function Controller(MessageChatAppService, $scope, $cookies, $window) {
     vm.messagesList = [];
     vm.message = '';
     vm.loggedUser = _getUserInfo().id;
+    vm.MessageChatAppService = $injector.get('MessageChatAppService');
+    vm.WebsocketService = $injector.get('WebsocketService');
+
+    vm.tracker = {
+      loadingMessages: promiseTracker()
+    };
 
     $scope.$on('newMessage', _onNewMessage);
     $scope.$watch('vm.contact.id', _onRecipientUserChanges, true);
@@ -28,16 +34,16 @@ function Controller(MessageChatAppService, $scope, $cookies, $window) {
     return message.userRecipient.id === vm.loggedUser;
   }
 
-  function _onRecipientUserChanges(oldValue, newValue) {
-    if(oldValue !== newValue) _loadAllMessages(newValue);
+  function _onRecipientUserChanges(newValue, oldValue) {
+    if (oldValue !== newValue) _loadAllMessages(newValue);
   }
 
   function _onKeyPress($event) {
-    if(vm.message && $event.keyCode == 13) _sendMessage();
+    if (vm.message && $event.keyCode == 13) _sendMessage();
   }
 
   function _onNewMessage(event, data) {
-    if(data.contact.id === vm.contact.id) _pushNewMessage(data);
+    if (data.contact.id === vm.contact.id) _pushNewMessage(data);
   }
 
   function _sendMessage() {
@@ -49,7 +55,7 @@ function Controller(MessageChatAppService, $scope, $cookies, $window) {
       userRecipient: vm.contact.user,
       contact: vm.contact
     };
-    vm.sendMessage(payload);
+    vm.WebsocketService.sendMessage(payload);
 
     let payloadToBePushed = angular.copy(payload);
     payloadToBePushed.createdIn = moment().format('HH:mm DD/MM/YYYY');
@@ -58,7 +64,7 @@ function Controller(MessageChatAppService, $scope, $cookies, $window) {
 
   function _pushNewMessage(data, onSend = false) {
     vm.messagesList.push(data);
-    if(!onSend) $scope.$apply(vm.messagesList);
+    if (!onSend) $scope.$apply(vm.messagesList);
   }
 
   function _getUserInfo() {
@@ -66,8 +72,10 @@ function Controller(MessageChatAppService, $scope, $cookies, $window) {
   }
 
   function _loadAllMessages(id) {
-    MessageChatAppService.loadAllMessages(id).then(response => {
-      vm.messagesList = response;
-    });
+    vm.tracker.loadingMessages.addPromise(
+      vm.MessageChatAppService.loadAllMessages(id).then(response => {
+        vm.messagesList = response;
+      })
+    );
   }
 }

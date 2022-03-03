@@ -6,4 +6,4 @@ module.exports = angular
       require('./sign-up'),
       require('./email-validation')
     ])
-    .service('ServiceAuthentication', require('./service/service')).name;
+    .service('ServiceAuthentication', require('./service/authentication.service')).name;

@@ -112,6 +112,22 @@ body {
     margin-right: 5px;
 }
 
+.loading-div {
+    z-index: 10;
+    display: flex;
+    position: absolute;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+}
+
+.loading-div > img {
+    width: 22px !important;
+    height: 22px !important;
+}
+
 @media (max-width: 1520px) {
     .container-background {
         padding: 0;

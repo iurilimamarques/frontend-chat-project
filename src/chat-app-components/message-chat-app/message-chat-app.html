@@ -1,3 +1,7 @@
+<div class="loading-div" ng-if="vm.tracker.loadingMessages.active()">
+  <img src="../../../content/images/messages_loading.svg">
+</div>
+
 <div class="w-100 container-messages" scroll-to-bottom="vm.messagesList">
   <div>
     <div class="container-message-line" ng-repeat="message in vm.messagesList track by $index" ng-class="{ 'container-message-line-receiver': vm.isRecipient(message) }">

@@ -21,22 +21,12 @@
         </li>
 
         <li ng-repeat="item in vm.contacts track by $index" class="nav-item">
-          <a class="nav-link" ng-class="{ 'active': item.id === vm.selectedContact.id }" href ng-click="vm.selectContact(item)">
+          <a class="nav-link" data-ui-sref="contact({ idContact: item.id })" data-ui-sref-active="active">
             <img class="navbar-brand-img h-100 w-15" src="../../../../content/images/pngegg.png">
             <span class="nav-link-text ms-1">{{item.user.name}}<br></span>
-          </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="">
-            <img class="navbar-brand-img h-100 w-15" src="../../../../content/images/pngegg%20(1).png">
-            <span class="nav-link-text ms-1">Tables<br></span>
           </a>
         </li>
       </ul>
     </div>
   </div>
 </aside>
-
-<!--    <div class="container-message-default my-3 me-3" ng-if="!vm.isObjectEmpty(vm.selectedContact)">-->
-<!--      <message-chat-app contact="vm.selectedContact" send-message="vm.sendMessage"/>-->
-<!--    </div>-->

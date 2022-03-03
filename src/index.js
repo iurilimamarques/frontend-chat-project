@@ -13,5 +13,4 @@ module.exports = angular
       require('angular-cookies')
     ])
     .constant('URL_API_CHATAPP', 'http://localhost:8080/chat-app/api/')
-    .config(require('./index.states'))
-    .service('RestangularConfigService', require('./restangular-config')).name;
+    .config(require('./index.states')).name;

@@ -6,20 +6,18 @@ Controller.$inject = ['SockJS', 'Stomp', '$rootScope', '$scope', '$cookies', '$i
 
 function Controller(SockJS, Stomp, $rootScope, $scope, $cookies, $injector) {
   let vm = this;
-  let stompClient = {};
-  let RestangularConfig = $injector.get('RestangularConfig');
   let ContactService = $injector.get('ContactService');
+  let WebsocketService = $injector.get('WebsocketService');
 
   vm.selectContact = _selectContact;
   vm.isObjectEmpty = _isObjectEmpty;
-  vm.sendMessage = _sendMessage;
 
   vm.contacts = [];
   vm.selectedContact = {};
   vm.userSearch = {};
   vm.newMessages = {};
 
-  RestangularConfig.init();
+  $rootScope.$on('onSelectUser', _onSelectUser);
 
   function _selectContact(item) {
     vm.selectedContact = item;
@@ -65,58 +63,22 @@ function Controller(SockJS, Stomp, $rootScope, $scope, $cookies, $injector) {
     });
   }
 
-  function _connectUser(userInfo) {
-    // let ws = SockJS(`${process.env.BASE_URL_WEBSOCKET}/chat`);
-    let ws = SockJS(`http://localhost:8082/chat`);
-
-    stompClient = Stomp.over(ws);
-
-    stompClient.connect({email: userInfo.email}, function () {
-      _messageSubscriber();
-      _updateChecker();
-    }, function (err) {
-      console.log(err);
-    });
-  }
-
   function _isknownUser(item, fromUserId) {
     return item.id == fromUserId;
   }
 
   function _verifyActiveChats(fromUserId) {
     let knownUser = vm.activeChats.find(a => _isknownUser(a, fromUserId));
-    if(!knownUser) _getContacts();
-  }
-
-  function _messageSubscriber() {
-    stompClient.subscribe('/user/queue/messages', function (output) {
-      let incomingMessage = angular.fromJson(output.body);
-      console.log(incomingMessage)
-      // _verifyActiveChats(incomingMessage.fromUser.id);
-      $scope.$broadcast('newMessage', incomingMessage);
-    });
-  }
-
-  function _updateChecker() {
-    stompClient.subscribe('/topic/active', function () {
-      console.log('updating....')
-    });
-  }
-
-  function _sendMessage(payload) {
-    stompClient.send("/app/chat", {'sender': payload.fromUser},
-      angular.toJson(payload));
+    if (!knownUser) _getContacts();
   }
 
   function _getUserInfo() {
     return angular.fromJson($cookies.get('userCredentials'));
   }
 
-  $rootScope.$on('onSelectUser', _onSelectUser);
-
   (function _init() {
+    WebsocketService.connectUser();
     _defineUserInformation();
-    _connectUser(_getUserInfo());
     _getContacts();
   })();
 }

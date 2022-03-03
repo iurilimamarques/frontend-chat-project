@@ -1,4 +1,5 @@
-let template = require('./message-chat-app.html');
+const controller = require('./message-page-mobile.controller');
+const template = require('./message-page-mobile.html');
 
 module.exports = directive;
 
@@ -8,11 +9,8 @@ function directive() {
   return {
     restrict: 'E',
     template: template,
-    controller: 'MessageChatAppController',
+    controller: controller,
     controllerAs: 'vm',
-    scope: {},
-    bindToController: {
-      contact: '=?'
-    }
+    scope: {}
   };
 }
