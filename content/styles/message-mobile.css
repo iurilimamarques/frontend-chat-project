@@ -2,4 +2,31 @@
     .navbar-vertical.navbar-expand-xs {
         max-width: 90% !important;
     }
+
+    .container-text-receiver {
+        margin-left: 10px;
+    }
+
+    .container-text {
+        margin-right: 10px;
+    }
+
+    .container-messages > div {
+        overflow-x: hidden;
+    }
+
+    .container-messages {
+        height: calc(100% - 4rem) !important;
+        max-height: 54rem !important;
+    }
+
+    .container-input-message {
+        height: calc(100% - 39rem) !important;
+        max-height: 3rem !important;
+        padding: 0 10px 0 10px !important;
+    }
+
+    .container-input-message > .input-group {
+        position: unset !important;
+    }
 }
