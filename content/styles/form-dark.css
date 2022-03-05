@@ -33,6 +33,7 @@
   box-shadow: none;
   outline: none;
   color: inherit;
+  caret-color: white !important;
 }
 
 .form-dark form .btn-primary {
