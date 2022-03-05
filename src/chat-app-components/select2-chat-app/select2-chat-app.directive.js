@@ -12,7 +12,8 @@ function directive() {
     controllerAs: 'vm',
     scope: {},
     bindToController: {
-      ngModel: '='
+      ngModel: '=',
+      selectedUsers: '='
     }
   }
 }

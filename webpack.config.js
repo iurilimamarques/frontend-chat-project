@@ -25,21 +25,6 @@ module.exports = {
     ],
     rules: [
       {
-        test: /\.js$/,
-        exclude: /node_modules/,
-        use: [
-          {
-            loader: 'babel-loader',
-            options: {
-              plugins: [
-                require('babel-plugin-transform-object-rest-spread'),
-                require('babel-plugin-transform-runtime')
-              ]
-            }
-          }
-        ]
-      },
-      {
         test: /\.html$/i,
         loader: 'html-loader'
       },

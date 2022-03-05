@@ -19,8 +19,10 @@ function Controller(SelectService, $scope) {
   }
 
   function _searchUser($select) {
+    let idsSelected = vm.selectedUsers.map(item => item.user.id).join(',');
     let params = {
-      keyWord: $select.search
+      keyWord: $select.search,
+      notIn: `${idsSelected}`
     };
 
     SelectService.searchUser(params).then(response => {
