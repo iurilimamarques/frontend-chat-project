@@ -2,9 +2,9 @@ const angular = require('angular');
 
 module.exports = Controller;
 
-Controller.$inject = ['SockJS', 'Stomp', '$rootScope', '$scope', '$cookies', '$injector'];
+Controller.$inject = ['SockJS', 'Stomp', '$scope', '$cookies', '$injector'];
 
-function Controller(SockJS, Stomp, $rootScope, $scope, $cookies, $injector) {
+function Controller(SockJS, Stomp, $scope, $cookies, $injector) {
   let vm = this;
   let ContactService = $injector.get('ContactService');
   let WebsocketService = $injector.get('WebsocketService');
@@ -20,7 +20,7 @@ function Controller(SockJS, Stomp, $rootScope, $scope, $cookies, $injector) {
   vm.userSearch = {};
   vm.newMessages = {};
 
-  $rootScope.$on('onSelectUser', _onSelectUser);
+  $scope.$on('onSelectUser', _onSelectUser);
   $scope.$on('newMessage', _updateContact);
 
   function _updateContact(event, data) {
@@ -40,7 +40,8 @@ function Controller(SockJS, Stomp, $rootScope, $scope, $cookies, $injector) {
     let contactBody = _builldContact(selectedUser);
     ContactService.saveContact(contactBody).then(response => {
       _selectContact(response.plain());
-      vm.contacts.unshift(response.plain());
+      vm.contacts.list.push(response.plain());
+      _buildHashedList();
     });
   }
 
@@ -69,8 +70,12 @@ function Controller(SockJS, Stomp, $rootScope, $scope, $cookies, $injector) {
   function _getContacts() {
     ContactService.getActiveContacts().then(response => {
       vm.contacts.list = response.plain();
-      vm.contacts.list.forEach(item => vm.hashedContacts[item.id] = item);
+      _buildHashedList();
     });
+  }
+
+  function _buildHashedList() {
+    vm.contacts.list.forEach(item => vm.hashedContacts[item.id] = item);
   }
 
   function _isknownUser(item, fromUserId) {

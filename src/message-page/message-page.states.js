@@ -1,4 +1,3 @@
-const angular = require("angular");
 module.exports = states;
 
 states.$inject = ['$stateProvider', '$urlRouterProvider'];
