@@ -7,4 +7,5 @@ module.exports = angular
     require('ui-select')
   ])
   .directive('select2ChatApp', require('./select2-chat-app.directive'))
+  .controller('select2ChatAppCtrl', require('./select2-chat-app.controller'))
   .service('SelectService', require('./service')).name;

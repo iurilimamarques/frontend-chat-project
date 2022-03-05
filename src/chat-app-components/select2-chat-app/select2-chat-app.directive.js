@@ -1,5 +1,4 @@
 const template = require('./select2-chat-app.html');
-const angular = require('angular');
 
 module.exports = directive;
 
@@ -9,38 +8,11 @@ function directive() {
   return {
     restrict: 'E',
     template: template,
-    controller: Controller,
+    controller: 'select2ChatAppCtrl',
     controllerAs: 'vm',
     scope: {},
     bindToController: {
       ngModel: '='
     }
-  }
-}
-
-Controller.$inject = ['$rootScope', 'SelectService'];
-
-function Controller($rootScope, SelectService) {
-  let vm = null;
-  this.$onInit = function() {
-    vm = this;
-    vm.searchUser = _searchUser;
-    vm.onSelectUser = _onSelectUser;
-  }
-
-  function _onSelectUser($select) {
-    let userSelected = angular.copy(vm.ngModel.selected);
-    delete $select.selected;
-    $rootScope.$emit('onSelectUser', userSelected);
-  }
-
-  function _searchUser($select) {
-    let params = {
-      keyWord: $select.search
-    };
-
-    SelectService.searchUser(params).then(response => {
-      vm.people = response;
-    });
   }
 }
