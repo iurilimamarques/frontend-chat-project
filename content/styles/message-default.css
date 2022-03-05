@@ -14,8 +14,8 @@ body {
     top: 0;
     bottom: 0;
     position: absolute;
-    width: calc(100% - 19rem);
-    max-width: 141rem;
+    width: 100%;
+    max-width: calc(100% - 300px);
 }
 
 .bottom-5 {
@@ -25,10 +25,10 @@ body {
 .container-messages {
     display: flex;
     flex-direction: column-reverse;
-    height: calc(100% - 5rem);
+    height: calc(100% - 38px);
     top: 0;
     position: absolute;
-    max-height: 47rem;
+    max-height: calc(100% - 60px);
     overflow-y: auto;
 }
 
@@ -78,11 +78,10 @@ body {
 }
 
 .container-input-message {
-    height: calc(100% - 5rem);
+    height: 38px;
     bottom: 0;
     display: block;
     position: absolute;
-    max-height: 5rem;
 }
 
 .container-content {
@@ -151,10 +150,6 @@ body {
 
     .container-content {
         width: 100%;
-    }
-
-    .container-message-default {
-        width: calc(100% - 18rem);
     }
 
     .container-text {

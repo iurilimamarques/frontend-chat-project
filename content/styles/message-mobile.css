@@ -1,4 +1,4 @@
-@media (max-width: 768px) {
+@media (max-width: 700px) {
     .navbar-vertical.navbar-expand-xs {
         max-width: 90% !important;
     }
