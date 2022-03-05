@@ -23,7 +23,7 @@
                 <span class="ps-4 ms-2 text-uppercase text-xs font-weight-bolder opacity-6">Contacts</span>
               </li>
 
-              <li ng-repeat="item in vm.contacts track by $index" class="nav-item">
+              <li ng-repeat="item in vm.contacts.list | orderBy: '-updatedIn' track by $index" class="nav-item">
                 <a class="nav-link" ng-class="{ 'active': item.id === vm.selectedContact.id }" href ng-click="vm.selectContact(item)">
                   <img class="navbar-brand-img h-100 w-15" src="../../../../content/images/pngegg.png">
                   <span class="nav-link-text ms-1">{{item.user.name}}<br></span>

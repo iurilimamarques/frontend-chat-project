@@ -12,12 +12,21 @@ function Controller(SockJS, Stomp, $rootScope, $scope, $cookies, $injector) {
   vm.selectContact = _selectContact;
   vm.isObjectEmpty = _isObjectEmpty;
 
-  vm.contacts = [];
+  vm.contacts = {
+    list: []
+  };
+  vm.hashedContacts = {};
   vm.selectedContact = {};
   vm.userSearch = {};
   vm.newMessages = {};
 
   $rootScope.$on('onSelectUser', _onSelectUser);
+  $scope.$on('newMessage', _updateContact);
+
+  function _updateContact(event, data) {
+    vm.hashedContacts[data.contact.id].updatedIn = data.contact.updatedIn;
+    $scope.$apply();
+  }
 
   function _selectContact(item) {
     vm.selectedContact = item;
@@ -59,7 +68,8 @@ function Controller(SockJS, Stomp, $rootScope, $scope, $cookies, $injector) {
 
   function _getContacts() {
     ContactService.getActiveContacts().then(response => {
-      vm.contacts = response.plain();
+      vm.contacts.list = response.plain();
+      vm.contacts.list.forEach(item => vm.hashedContacts[item.id] = item);
     });
   }
 
