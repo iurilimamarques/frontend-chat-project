@@ -3,3 +3,7 @@ node_js:
   - 10.19.0
 dist: xenial
 script: 'true'
+deploy:
+  provider: heroku
+  api_key: $HEROKU_API_KEY
+  app: frontend-chatapp
