@@ -1,6 +1,9 @@
 {
   "name": "frontend-chatapp",
   "version": "1.0.0",
+  "engines": {
+    "node": "10.x"
+  },
   "description": "",
   "module": "src/index.js",
   "scripts": {
