@@ -64,6 +64,6 @@ module.exports = {
     new ExtractTextPlugin(
       '[name].css'
     ),
-    new Dotenv()
+    new Dotenv({ systemvars: true })
   ]
 };

@@ -17,8 +17,8 @@ function websocketService(SockJS, Stomp, $cookies, $rootScope) {
 
   function _connectUser() {
     let userInfo = _getUserInfo();
-    // let ws = SockJS(`${process.env.BASE_URL_WEBSOCKET}/chat`);
-    let ws = SockJS(`http://localhost:8082/chat`);
+    let server = process.env.WEBSOCKET_SERVER || `http://localhost:8082/chat`;
+    let ws = SockJS(server);
 
     stompClient = Stomp.over(ws);
 
