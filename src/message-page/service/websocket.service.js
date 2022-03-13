@@ -1,4 +1,5 @@
 const angular = require("angular");
+
 module.exports = websocketService;
 
 websocketService.$inject = ['SockJS', 'Stomp', '$cookies', '$rootScope'];
@@ -9,7 +10,8 @@ function websocketService(SockJS, Stomp, $cookies, $rootScope) {
   return {
     sendMessage: _sendMessage,
     connectUser: _connectUser,
-    disconnect: _disconnect
+    disconnect: _disconnect,
+    isConnected: _isConnected
   }
 
   function _getUserInfo() {
@@ -51,5 +53,9 @@ function websocketService(SockJS, Stomp, $cookies, $rootScope) {
   function _sendMessage(payload) {
     stompClient.send("/app/chat", {'sender': payload.fromUser},
         angular.toJson(payload));
+  }
+
+  function _isConnected() {
+    return !angular.equals({}, stompClient);
   }
 }

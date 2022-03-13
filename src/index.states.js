@@ -15,7 +15,9 @@ function states($stateProvider, $urlRouterProvider) {
       },
       resolve: {
         disconnectUser: (WebsocketService) => {
-          WebsocketService.disconnect();
+          if (WebsocketService.isConnected()) {
+            WebsocketService.disconnect();
+          }
         }
       }
     })
