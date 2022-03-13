@@ -8,7 +8,8 @@ function websocketService(SockJS, Stomp, $cookies, $rootScope) {
 
   return {
     sendMessage: _sendMessage,
-    connectUser: _connectUser
+    connectUser: _connectUser,
+    disconnect: _disconnect
   }
 
   function _getUserInfo() {
@@ -30,10 +31,13 @@ function websocketService(SockJS, Stomp, $cookies, $rootScope) {
     });
   }
 
+  function _disconnect() {
+    stompClient.disconnect();
+  }
+
   function _messageSubscriber() {
     stompClient.subscribe('/user/queue/messages', function (output) {
       let incomingMessage = angular.fromJson(output.body);
-      // _verifyActiveChats(incomingMessage.fromUser.id);
       $rootScope.$broadcast('newMessage', incomingMessage);
     });
   }

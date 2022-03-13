@@ -24,8 +24,31 @@ function Controller(SockJS, Stomp, $scope, $cookies, $injector) {
   $scope.$on('newMessage', _updateContact);
 
   function _updateContact(event, data) {
-    vm.hashedContacts[data.contact.id].updatedIn = data.contact.updatedIn;
+    if (_isFirstMessage(data)){
+      _addContactToList(data);
+    } else {
+      vm.hashedContacts[data.contact.id].updatedIn = data.contact.updatedIn;
+    }
     $scope.$apply();
+  }
+
+  function _addContactToList(data) {
+    let newContact = _buildNewContact(data);
+    vm.contacts.list.push(newContact);
+    _buildHashedList();
+  }
+
+  function _buildNewContact(data) {
+    return {
+      id: data.contact.id,
+      user: data.userSender,
+      updatedIn: data.contact.createdIn,
+      createdIn: data.contact.createdIn
+    };
+  }
+
+  function _isFirstMessage(data) {
+    return !vm.hashedContacts[data.contact.id];
   }
 
   function _selectContact(item) {
@@ -76,15 +99,6 @@ function Controller(SockJS, Stomp, $scope, $cookies, $injector) {
 
   function _buildHashedList() {
     vm.contacts.list.forEach(item => vm.hashedContacts[item.id] = item);
-  }
-
-  function _isknownUser(item, fromUserId) {
-    return item.id == fromUserId;
-  }
-
-  function _verifyActiveChats(fromUserId) {
-    let knownUser = vm.activeChats.find(a => _isknownUser(a, fromUserId));
-    if (!knownUser) _getContacts();
   }
 
   function _getUserInfo() {

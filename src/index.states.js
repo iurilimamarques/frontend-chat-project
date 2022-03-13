@@ -12,6 +12,11 @@ function states($stateProvider, $urlRouterProvider) {
         content: {
           template: '<login/>'
         }
+      },
+      resolve: {
+        disconnectUser: (WebsocketService) => {
+          WebsocketService.disconnect();
+        }
       }
     })
     .state('sign-up', {
