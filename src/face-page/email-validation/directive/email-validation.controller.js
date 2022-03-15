@@ -8,7 +8,7 @@ function Controller(promiseTracker, $injector, $cookies, $state, $timeout) {
 
   const ServiceAuthentication = $injector.get('ServiceAuthentication');
 
-  vm.codeValidationSucceded = false;
+  vm.codeValidationSucceeded = false;
   vm.codeValidation = {};
   vm.tracker = {
     sendingCode: promiseTracker()
@@ -42,7 +42,7 @@ function Controller(promiseTracker, $injector, $cookies, $state, $timeout) {
 
     vm.tracker.sendingCode.addPromise(
       ServiceAuthentication.sendCode(params).then(() => {
-        vm.codeValidationSucceded = true;
+        vm.codeValidationSucceeded = true;
         $timeout(() => {
           $state.go('login');
         }, 2500);

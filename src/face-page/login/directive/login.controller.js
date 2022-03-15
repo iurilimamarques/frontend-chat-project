@@ -30,6 +30,14 @@ function Controller($state, $rootScope, $injector, promiseTracker, $cookies) {
         $rootScope.$broadcast('saveState');
         $state.go('chat-app');
       }, function(error) {
+        if (error.data.message === 'USER_VALIDATION') {
+          let userCredentials = {
+            username: vm.userCredentials.email
+          };
+
+          $cookies.put('userCredentials', angular.toJson(userCredentials));
+          $state.go('email-validation');
+        }
         vm.messageError = error.data.message;
       })
     );
