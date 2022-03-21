@@ -16,7 +16,8 @@ module.exports = angular
   .directive('messagePageMobile', require('./directive-mobile/message-page-mobile.directive'))
   .service('ContactService', require('./service/contact.service'))
   .service('WebsocketService', require('./service/websocket.service'))
-  .factory('RestangularConfig', require('../restangular-config'))
+  .factory('RestangularConfig', require('../configs/restangular-config'))
+  .factory('SignoutConfig', require('../configs/signout-config'))
   .constant('SockJS', require('sockjs-client'))
   .constant('Stomp', require('stompjs/lib/stomp.js').Stomp)
   .config(require('./message-page.states')).name;

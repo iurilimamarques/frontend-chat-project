@@ -21,7 +21,6 @@ function RestangularConfig($cookies, Restangular, $state) {
     Restangular.setErrorInterceptor((response) => {
       if (response.data.message === 'JWT_NOT_VALID') $state.go('login');
     });
-
     return true;
   }
 }

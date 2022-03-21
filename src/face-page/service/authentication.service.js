@@ -6,15 +6,22 @@ function authenticationService(Restangular, URL_API_CHATAPP) {
   const path = 'auth';
 
   return {
-    userLogin: _userLogin,
+    userSignin: _userSignin,
     saveUser: _saveUser,
-    sendCode: _sendCode
+    sendCode: _sendCode,
+    userSignout: _userSignout
   }
 
-  function _userLogin(userCredentials) {
+  function _userSignin(userCredentials) {
     return Restangular.allUrl('chat-app', URL_API_CHATAPP)
         .all(`${path}/signin`)
         .customPOST(userCredentials);
+  }
+
+  function _userSignout() {
+    return Restangular.allUrl('chat-app', URL_API_CHATAPP)
+        .all(`${path}/signout`)
+        .customGET();
   }
 
   function _saveUser(userCredentials) {

@@ -8,6 +8,8 @@ Controller.$inject = ['$scope', '$cookies', '$injector', 'promiseTracker'];
 function Controller($scope, $cookies, $injector, promiseTracker) {
   let vm = {};
 
+  let newMessageDestroyFunc;
+
   this.$onInit = function() {
     vm = this;
 
@@ -24,10 +26,14 @@ function Controller($scope, $cookies, $injector, promiseTracker) {
       loadingMessages: promiseTracker()
     };
 
-    $scope.$on('newMessage', _onNewMessage);
+    newMessageDestroyFunc = $scope.$on('newMessage', _onNewMessage);
     $scope.$watch('vm.contact.id', _onRecipientUserChanges, true);
 
     _loadAllMessages(vm.contact.id);
+  };
+
+  this.$onDestroy = function() {
+    newMessageDestroyFunc();
   };
 
   function _isRecipient(message) {

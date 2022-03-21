@@ -143,6 +143,10 @@ body {
     margin-bottom: 30px;
 }
 
+.navbar-brand {
+    padding: 1.5rem 1rem 1.5rem 1rem !important;
+}
+
 @media (max-width: 1520px) {
     .container-background {
         padding: 0;

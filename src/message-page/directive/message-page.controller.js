@@ -2,15 +2,18 @@ const angular = require('angular');
 
 module.exports = Controller;
 
-Controller.$inject = ['SockJS', 'Stomp', '$scope', '$cookies', '$injector'];
+Controller.$inject = ['$scope', '$cookies', '$injector', '$state'];
 
-function Controller(SockJS, Stomp, $scope, $cookies, $injector) {
+function Controller($scope, $cookies, $injector, $state) {
   let vm = this;
   let ContactService = $injector.get('ContactService');
   let WebsocketService = $injector.get('WebsocketService');
+  let newMessageDestroyFunc;
+  let onSelectUserDestroyFunc;
 
   vm.selectContact = _selectContact;
   vm.isObjectEmpty = _isObjectEmpty;
+  vm.signout = _signout;
 
   vm.contacts = {
     list: []
@@ -20,8 +23,13 @@ function Controller(SockJS, Stomp, $scope, $cookies, $injector) {
   vm.userSearch = {};
   vm.newMessages = {};
 
-  $scope.$on('onSelectUser', _onSelectUser);
-  $scope.$on('newMessage', _updateContact);
+  onSelectUserDestroyFunc = $scope.$on('onSelectUser', _onSelectUser);
+  newMessageDestroyFunc = $scope.$on('newMessage', _updateContact);
+
+  vm.$onDestroy = function() {
+    onSelectUserDestroyFunc();
+    newMessageDestroyFunc();
+  }
 
   function _updateContact(event, data) {
     if (_isFirstMessage(data)){
@@ -30,6 +38,10 @@ function Controller(SockJS, Stomp, $scope, $cookies, $injector) {
       vm.hashedContacts[data.contact.id].updatedIn = data.contact.updatedIn;
     }
     $scope.$apply();
+  }
+
+  function _onSelectUser(event, data) {
+    _createContact(data);
   }
 
   function _addContactToList(data) {
@@ -53,10 +65,6 @@ function Controller(SockJS, Stomp, $scope, $cookies, $injector) {
 
   function _selectContact(item) {
     vm.selectedContact = item;
-  }
-
-  function _onSelectUser(event, data) {
-    _createContact(data);
   }
 
   function _createContact(selectedUser) {
@@ -103,6 +111,11 @@ function Controller(SockJS, Stomp, $scope, $cookies, $injector) {
 
   function _getUserInfo() {
     return angular.fromJson($cookies.get('userCredentials'));
+  }
+
+  function _signout() {
+    console.log('teste')
+    $state.go('login');
   }
 
   (function _init() {

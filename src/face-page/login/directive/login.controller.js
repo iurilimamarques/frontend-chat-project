@@ -13,11 +13,11 @@ function Controller($state, $rootScope, $injector, promiseTracker, $cookies) {
     loginUser: promiseTracker()
   };
 
-  vm.userLogin = _userLogin;
+  vm.userSignin = _userSignin;
 
-  function _userLogin() {
+  function _userSignin() {
     vm.tracker.loginUser.addPromise(
-      ServiceAuthentication.userLogin(vm.userCredentials).then(response => {
+      ServiceAuthentication.userSignin(vm.userCredentials).then(response => {
         let userCredentials = {
           id: response.id,
           email: response.username,

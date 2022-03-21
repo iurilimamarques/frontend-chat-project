@@ -16,6 +16,9 @@ function states($stateProvider, $urlRouterProvider) {
       resolve: {
         configRestangular: (RestangularConfig) => {
           RestangularConfig.init();
+        },
+        configSignout: (SignoutConfig) => {
+          SignoutConfig.init();
         }
       }
     })

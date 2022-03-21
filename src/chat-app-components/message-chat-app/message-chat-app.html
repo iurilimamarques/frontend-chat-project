@@ -2,27 +2,29 @@
   <img src="../../../content/images/messages_loading.svg">
 </div>
 
-<div class="w-100 container-messages" scroll-to-bottom="vm.messagesList">
-  <div>
-    <div class="container-message-line" ng-repeat="message in vm.messagesList track by $index" ng-class="{ 'container-message-line-receiver': vm.isRecipient(message) }">
-      <div class="container-text" ng-class="{ 'container-text-receiver': vm.isRecipient(message) }">
-        <div class="container-text--message">
+<div ng-hide="vm.tracker.loadingMessages.active()">
+  <div class="w-100 container-messages" scroll-to-bottom="vm.messagesList">
+    <div>
+      <div class="container-message-line" ng-repeat="message in vm.messagesList track by $index" ng-class="{ 'container-message-line-receiver': vm.isRecipient(message) }">
+        <div class="container-text" ng-class="{ 'container-text-receiver': vm.isRecipient(message) }">
+          <div class="container-text--message">
           <span class="message" ng-bind-html="message.message">
           </span>
-        </div>
+          </div>
 
-        <div class="container-text--message-time">
+          <div class="container-text--message-time">
           <span class="message-time">
             {{message.createdIn}}
           </span>
+          </div>
         </div>
       </div>
     </div>
   </div>
-</div>
-<div class="container-input-message w-100">
-  <div class="input-group" style="position: absolute; bottom: 0;">
-    <input type="text" class="form-control" maxlength="255" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" ng-model="vm.message" ng-keydown="vm.onKeyPress($event)">
-    <button class="btn btn-outline-primary btn-light" type="button" id="send-message" ng-disabled="vm.message == ''" ng-click="vm.sendMessageCtrl()">Send</button>
+  <div class="container-input-message w-100">
+    <div class="input-group" style="position: absolute; bottom: 0;">
+      <input type="text" class="form-control" maxlength="255" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" ng-model="vm.message" ng-keydown="vm.onKeyPress($event)">
+      <button class="btn btn-outline-primary btn-light" type="button" id="send-message" ng-disabled="vm.message == ''" ng-click="vm.sendMessageCtrl()">Send</button>
+    </div>
   </div>
 </div>
