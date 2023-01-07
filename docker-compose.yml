@@ -1,0 +1,10 @@
+version: '3.8'
+
+services:
+  frontend-chatapp-app:
+    build: .
+    restart: on-failure
+    ports:
+      - 55001:55001
+    stdin_open: true
+    tty: true
