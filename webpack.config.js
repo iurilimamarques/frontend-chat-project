@@ -1,3 +1,4 @@
+const Dotenv = require('dotenv-webpack');
 var path = require('path');
 var HtmlWebpackPlugin = require('html-webpack-plugin');
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
@@ -62,6 +63,7 @@ module.exports = {
     }),
     new ExtractTextPlugin(
       '[name].css'
-    )
+    ),
+    new Dotenv({ systemvars: true })
   ]
 };
