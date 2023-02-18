@@ -13,5 +13,5 @@ module.exports = angular
       require('angular-promise-tracker').name || 'ajoslin.promise-tracker',
       require('angular-cookies')
     ])
-    .constant('URL_API_CHATAPP', `${process.env.NPM_CONFIG_LOGLEVEL}/chat-app/api/`)
+    .constant('URL_API_CHATAPP', `${process.env.GATEWAY_URL}/chat-app/api/`)
     .config(require('./index.states')).name;
