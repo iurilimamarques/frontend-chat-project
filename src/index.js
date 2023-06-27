@@ -14,4 +14,5 @@ module.exports = angular
       require('angular-cookies')
     ])
     .constant('URL_API_CHATAPP', `${process.env.GATEWAY_URL}/chat-app/api/`)
+    .constant('WEBSOCKET_SERVER', `${process.env.WEBSOCKET_SERVER}`)
     .config(require('./index.states')).name;

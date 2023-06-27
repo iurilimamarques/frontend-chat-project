@@ -2,9 +2,9 @@ const angular = require("angular");
 
 module.exports = websocketService;
 
-websocketService.$inject = ['SockJS', 'Stomp', '$cookies', '$rootScope'];
+websocketService.$inject = ['SockJS', 'Stomp', '$cookies', '$rootScope', 'WEBSOCKET_SERVER'];
 
-function websocketService(SockJS, Stomp, $cookies, $rootScope) {
+function websocketService(SockJS, Stomp, $cookies, $rootScope, WEBSOCKET_SERVER) {
   let stompClient = {};
 
   return {
@@ -20,7 +20,7 @@ function websocketService(SockJS, Stomp, $cookies, $rootScope) {
 
   function _connectUser() {
     let userInfo = _getUserInfo();
-    let server = process.env.WEBSOCKET_SERVER || `http://localhost:8082/chat`;
+    let server = WEBSOCKET_SERVER;
     let ws = SockJS(server);
 
     stompClient = Stomp.over(ws);
