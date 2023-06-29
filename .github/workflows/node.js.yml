@@ -53,7 +53,7 @@ jobs:
           file: Dockerfile
           push: true
           tags: iurilima/frontend-chatapp:latest
-          build-args:
+          build-args: |
             GATEWAY_URL=${{ vars.GATEWAY_URL }}
             WEBSOCKET_SERVER=${{ vars.WEBSOCKET_SERVER }}
 
