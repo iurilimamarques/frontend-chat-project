@@ -56,7 +56,7 @@ function Controller($scope, $cookies, $injector, promiseTracker) {
     let message = angular.copy(vm.message);
     vm.message = '';
     let payload = {
-      userSender:  _getUserInfo().email,
+      userSender:  _getUserInfo(),
       message: message,
       userRecipient: vm.contact.user,
       contact: vm.contact
