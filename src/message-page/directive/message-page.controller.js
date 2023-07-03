@@ -114,7 +114,6 @@ function Controller($scope, $cookies, $injector, $state) {
   }
 
   function _signout() {
-    console.log('teste')
     $state.go('login');
   }
 

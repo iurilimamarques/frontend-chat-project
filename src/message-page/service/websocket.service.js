@@ -51,7 +51,7 @@ function websocketService(SockJS, Stomp, $cookies, $rootScope, WEBSOCKET_SERVER)
   }
 
   function _sendMessage(payload) {
-    stompClient.send("/app/chat", {'sender': payload.fromUser},
+    stompClient.send("/app/chat", {'sender': payload.userSender},
         angular.toJson(payload));
   }
 
